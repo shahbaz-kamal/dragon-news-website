@@ -2,9 +2,9 @@ import React from "react";
 import { CiBookmark, CiShare2 } from "react-icons/ci";
 import { FaEye } from "react-icons/fa";
 import ReactStars from "react-rating-stars-component";
+import { Link } from "react-router-dom";
 
 const NewsCard = ({ singleNews }) => {
-  console.log(singleNews);
   return (
     <div className="border border-color-e7 rounded-md pb-4 md:pb-5">
       {/* author info */}
@@ -42,9 +42,12 @@ const NewsCard = ({ singleNews }) => {
       </div>
       <p className="px-4 text-sm md:text-base text-color-70 mb-4 md:mb-5">
         {singleNews.details.slice(0, 260)} ...{" "}
-        <span className="text-semibold text-transparent bg-gradient-to-r from-color-ff-0 to-color-f7-100 bg-clip-text">
+        <Link
+          to={`/news/${singleNews._id}`}
+          className="text-semibold text-transparent bg-gradient-to-r from-color-ff-0 to-color-f7-100 bg-clip-text"
+        >
           Read More
-        </span>
+        </Link>
       </p>
       <div className="px-4 mb-4 md:mb-5">
         <hr className="border-t border-t-color-e7" />

@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import userIcon from "../assets/user.png";
 import logo2 from "../assets/logo2.webp";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => console.log("LogOut Successfull"))
+      .catch((error) => {
+        console.log("Error", error.message);
+      });
+  };
   const links = (
     <>
       <li>
-        <Link>Home</Link>
+        <Link to={"/"}>Home</Link>
       </li>
       <li>
         <Link>About</Link>
@@ -58,12 +68,21 @@ const Navbar = () => {
           <img src={userIcon} alt="" />
         </div>
         <div>
-          <Link
-            to={"/auth/login"}
-            className="font-semibold py-2 px-8 text-lg md:text-xl bg-color-40 text-white hover:bg-[#5A5959] transition duration-300"
-          >
-            Login
-          </Link>
+          {user ? (
+            <button
+              onClick={handleLogOut}
+              className="font-semibold py-2 px-8 text-lg md:text-xl bg-color-40 text-white hover:bg-[#5A5959] transition duration-300"
+            >
+              LogOut
+            </button>
+          ) : (
+            <Link
+              to={"/auth/login"}
+              className="font-semibold py-2 px-8 text-lg md:text-xl bg-color-40 text-white hover:bg-[#5A5959] transition duration-300"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>

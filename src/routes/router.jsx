@@ -5,6 +5,9 @@ import DragonNewsHome from "../components/DragonNewsHome";
 import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import NewsPage from "../components/NewsDetails";
+import NewsDetails from "../components/NewsDetails";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +28,16 @@ const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/news", element: <h1>News Layout layout</h1> },
+  {
+    path: "/news/:id",
+    element: (
+      <PrivateRoute>
+        <NewsDetails></NewsDetails>
+      </PrivateRoute>
+    ),
+    loader: ({ params }) =>
+      fetch(`https://openapi.programming-hero.com/api/news/${params.id}`),
+  },
   {
     path: "/auth",
     element: <AuthLayout></AuthLayout>,

@@ -1,7 +1,33 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import {
+  Link,
+  Navigate,
+  useLoaderData,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
+  const { logInWithEmailAndPassword, setUser } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  console.log(location);
+  const handleLogIn = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const email = form.get("email");
+    const password = form.get("password");
+    logInWithEmailAndPassword(email, password)
+      .then((result) => {
+        setUser(result.user);
+        navigate(location?.state ? location.state : "/");
+      })
+      .catch((error) => {
+        console.log("ERROR", error.message);
+      });
+  };
+
   return (
     <div className="min-h-screen flex justify-center items-center ">
       <div className="card bg-base-100 w-full max-w-lg shrink-0 shadow-2xl p-6 md:p-10">
@@ -9,12 +35,13 @@ const Login = () => {
           Login your account
         </h2>
         <hr className="mt-6 md:mt-8 border-t border-t-color-e7" />
-        <form className="card-body">
+        <form onSubmit={handleLogIn} className="card-body">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
             </label>
             <input
+              name="email"
               type="email"
               placeholder="email"
               className="input input-bordered"
@@ -26,6 +53,7 @@ const Login = () => {
               <span className="label-text">Password</span>
             </label>
             <input
+              name="password"
               type="password"
               placeholder="password"
               className="input input-bordered"

@@ -4,7 +4,7 @@ import NewsCard from "./NewsCard";
 
 const DragonNewsHome = () => {
   const { data: news } = useLoaderData();
-  console.log(news);
+
   return (
     <div>
       <h2 className="font-semibold text-lg md:text-xl text-color-40 text-left mb-4 md:mb-6">
